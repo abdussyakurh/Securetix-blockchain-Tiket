@@ -1,0 +1,1955 @@
+/* Hallmark · v2.0.0 · theme: Darkroom (amber) · deal: manual · genre: atmospheric · nav: floating-pill · footer: colophon · posture: restrained · hero: Banner · signature: ticket stub printed on warm-black ground · imagery: product sample, ticket stubs built · stamp: darkroom: amber */
+/* pre-emit critique: P4 H4 E4 S5 R4 V4 · weakest: P, platform beroperasi jadi tone-nya operational; diperkuat dengan ticket stub sebagai visual utama bukan ilustrasi generik */
+/* waive 6b · hero Banner posture, atmospheric genre allows centred canvas as normal answer */
+/* waive 55b · single-line caps display in nav, cannot wrap at 320px */
+
+/* ==========================================================================
+   DESIGN TOKENS — DARKROOM (AMBER)
+   ========================================================================== */
+:root {
+    /* Ground & surfaces */
+    --color-paper: oklch(12.5% 0.008 55);
+    --color-paper-2: oklch(16% 0.009 55);
+    --color-paper-3: oklch(20.5% 0.01 55);
+
+    /* Ink */
+    --color-ink: oklch(92% 0.012 78);
+    --color-ink-2: oklch(80% 0.012 75);
+    --color-muted: oklch(64% 0.012 65);
+    --color-rule: oklch(29% 0.01 55);
+
+    /* Amber safelight — accent */
+    --color-accent: oklch(73% 0.15 58);
+    --color-accent-deep: oklch(50% 0.11 52);
+    --color-accent-ink: oklch(12.5% 0.008 55);
+    --color-focus: oklch(73% 0.15 58);
+
+    /* Status — derived, never chromatic signals */
+    --color-ok: oklch(68% 0.14 155);
+    --color-warn: oklch(78% 0.13 85);
+    --color-err: oklch(62% 0.18 25);
+    --color-ok-bg: oklch(18% 0.025 155);
+    --color-warn-bg: oklch(18% 0.022 65);
+    --color-err-bg: oklch(18% 0.028 25);
+
+    /* Typography */
+    --font-display: "Sofia Sans Extra Condensed", ui-sans-serif, sans-serif;
+    --font-body: "Barlow", ui-sans-serif, sans-serif;
+
+    /* Radius — zero everywhere (Darkroom) */
+    --radius-card: 0;
+    --radius-pill: 0;
+
+    /* Rules */
+    --rule-hair: 1px;
+    --shadow-card: none;
+
+    /* Type tracking & weight */
+    --tracking-display: -0.005em;
+    --display-weight: 200;
+    --grain: 0.07;
+
+    /* Scale (1.25 ratio from 16px body) */
+    --text-display: 5.25rem;
+    --text-display-s: 3.75rem;
+    --text-section: 3.25rem;
+    --text-title: 1.5625rem;
+    --text-lead: 1.3125rem;
+    --text-md: 1rem;
+    --text-sm: 0.875rem;
+
+    /* Spacing scale */
+    --space-3xs: 0.125rem;
+    --space-2xs: 0.25rem;
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2.5rem;
+    --space-2xl: 4rem;
+    --space-3xl: 6rem;
+    --space-4xl: 9rem;
+
+    /* Layout */
+    --sidebar-width: 285px;
+    --nav-height: 56px;
+
+    /* Z-index ladder */
+    --z-base: 1;
+    --z-raised: 10;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-sticky-nav: 300;
+    --z-modal: 400;
+    --z-toast: 500;
+    --z-tooltip: 600;
+
+    /* Mono font token */
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+    /* Shadow & scrim tokens */
+    --shadow-nav: 0 10px 28px oklch(5% 0.005 55 / 0.65);
+    --shadow-modal: 0 20px 50px oklch(5% 0.005 55 / 0.65);
+    --shadow-toast: 0 10px 28px oklch(5% 0.005 55 / 0.55);
+    --color-scrim: oklch(5% 0.005 55 / 0.82);
+
+    /* Duration */
+    --dur-micro: 120ms;
+    --dur-short: 220ms;
+    --dur-long: 420ms;
+
+    /* Easing */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+    --ease-in-out: cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+/* ==========================================================================
+   RESET & BASE
+   ========================================================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: clip;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+::selection {
+    background: color-mix(in oklab, var(--color-accent) 35%, transparent);
+    color: var(--color-ink);
+}
+
+:root {
+    caret-color: var(--color-accent);
+    scrollbar-color: var(--color-rule) var(--color-paper-2);
+    scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    background: var(--color-paper-2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-rule);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY — DARKROOM VOICE
+   ========================================================================== */
+h1,
+h2,
+.figure-num {
+    font-family: var(--font-display);
+    font-weight: 200;
+    text-transform: uppercase;
+    line-height: 1.0;
+    letter-spacing: var(--tracking-display);
+    overflow-wrap: break-word;
+    min-width: 0;
+    text-wrap: balance;
+    margin: 0;
+}
+
+h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 1.0;
+    letter-spacing: var(--tracking-display);
+    overflow-wrap: break-word;
+    min-width: 0;
+    text-wrap: balance;
+    margin: 0;
+}
+
+h4 {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0;
+}
+
+h1 {
+    font-size: var(--text-display);
+}
+
+h2 {
+    font-size: var(--text-section);
+}
+
+h3 {
+    font-size: var(--text-title);
+}
+
+p {
+    text-wrap: pretty;
+    margin: 0;
+    max-width: 65ch;
+}
+
+small,
+figcaption,
+.caption,
+.meta,
+label,
+th {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--color-muted);
+}
+
+code,
+.mono {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    color: var(--color-ink-2);
+    background: var(--color-paper-3);
+    padding: 0.1em 0.3em;
+}
+
+/* ==========================================================================
+   GRAIN TEXTURE (Darkroom speck grain on wells)
+   ========================================================================== */
+.grained {
+    position: relative;
+    isolation: isolate;
+}
+
+.grained::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: var(--grain);
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 9 -4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E") 0 0 / 200px 200px;
+}
+
+/* ==========================================================================
+   APP SHELL
+   ========================================================================== */
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   SIDEBAR
+   ========================================================================== */
+.app-sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    background-color: var(--color-paper-2);
+    border-right: var(--rule-hair) solid var(--color-rule);
+    padding: var(--space-lg) var(--space-md);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: var(--z-sticky);
+    transition: transform var(--dur-short) var(--ease-in-out);
+}
+
+.app-sidebar.collapsed {
+    transform: translateX(-100%);
+}
+
+.sidebar-reopen-btn {
+    position: fixed;
+    top: var(--space-md);
+    left: var(--space-md);
+    z-index: var(--z-sticky-nav);
+    background-color: var(--color-paper-2);
+    color: var(--color-ink);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--dur-micro) var(--ease-out),
+        color var(--dur-micro) var(--ease-out);
+}
+
+.sidebar-reopen-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.sidebar-reopen-btn:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.sb-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+}
+
+.sb-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.sb-fox {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.sb-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-ink);
+}
+
+.sb-header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.sb-network-pill {
+    background: var(--color-paper-3);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    padding: var(--space-3xs) var(--space-xs);
+    font-size: 0.72rem;
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+.sb-collapse-btn {
+    background: transparent;
+    border: var(--rule-hair) solid var(--color-rule);
+    color: var(--color-muted);
+    border-radius: var(--radius-card);
+    width: 24px;
+    height: 24px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--dur-micro) var(--ease-out),
+        color var(--dur-micro) var(--ease-out);
+}
+
+.sb-collapse-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-ink);
+}
+
+.sb-collapse-btn:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.sb-avatar-wrap {
+    display: flex;
+    justify-content: center;
+    margin: var(--space-xs) 0 var(--space-md) 0;
+}
+
+.sb-avatar-circle {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: conic-gradient(from 180deg at 50% 50%,
+            var(--color-paper-3) 0deg,
+            var(--color-accent-deep) 120deg,
+            var(--color-paper-2) 240deg,
+            var(--color-paper-3) 360deg);
+    border: var(--rule-hair) solid var(--color-rule);
+}
+
+.sb-account-select-wrap {
+    margin-bottom: var(--space-sm);
+}
+
+.sb-balance-box {
+    text-align: center;
+    padding: var(--space-2xs) 0 var(--space-md) 0;
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+}
+
+.sb-conn-ok {
+    font-size: 0.78rem;
+    color: var(--color-ok);
+    font-weight: 600;
+    margin-bottom: var(--space-2xs);
+}
+
+.sb-conn-err {
+    font-size: 0.78rem;
+    color: var(--color-err);
+    font-weight: 600;
+    margin-bottom: var(--space-2xs);
+}
+
+.sb-balance-val {
+    font-family: var(--font-display);
+    font-weight: 200;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+    line-height: 1;
+    margin: var(--space-xs) 0 var(--space-2xs);
+}
+
+.sb-addr-mono {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    margin-top: var(--space-2xs);
+}
+
+.sb-owned-badge {
+    font-size: 0.78rem;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-card);
+    text-align: center;
+    margin-top: var(--space-sm);
+}
+
+.sb-owned-badge.has {
+    background: color-mix(in oklab, var(--color-accent) 12%, var(--color-paper-2));
+    border: var(--rule-hair) solid color-mix(in oklab, var(--color-accent) 40%, transparent);
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+.sb-owned-badge.none {
+    background: var(--color-paper-3);
+    border: var(--rule-hair) solid var(--color-rule);
+    color: var(--color-muted);
+    font-weight: 400;
+}
+
+.sb-expander {
+    background: var(--color-paper-3);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    margin-top: var(--space-md);
+    padding: var(--space-sm);
+    font-size: 0.8rem;
+    color: var(--color-ink-2);
+}
+
+.sb-expander summary {
+    cursor: pointer;
+    font-weight: 600;
+    user-select: none;
+    color: var(--color-ink);
+}
+
+.sb-expander-body {
+    margin-top: var(--space-sm);
+}
+
+.sb-mm-status {
+    margin-top: var(--space-xs);
+    font-size: 0.74rem;
+    color: var(--color-muted);
+}
+
+.sb-section-label {
+    font-size: var(--text-sm);
+    font-weight: 400;
+    color: var(--color-muted);
+    margin: var(--space-md) 0 var(--space-xs) 0;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.sb-activity-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.sb-activity-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    padding: var(--space-xs) 0;
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+}
+
+.sb-activity-row:last-child {
+    border-bottom: none;
+}
+
+.sb-activity-act {
+    color: var(--color-ink-2);
+    font-weight: 400;
+}
+
+.sb-activity-time {
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+}
+
+.sb-empty-text {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    padding: var(--space-xs) 0;
+}
+
+.sb-config-card {
+    background: var(--color-paper);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    padding: var(--space-sm);
+    margin-top: var(--space-md);
+    color: var(--color-ink);
+    /* Hallmark · fix 41 · explicit ink colour on L 12% surface */
+}
+
+.sb-config-title {
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    margin-bottom: var(--space-xs);
+}
+
+.sb-config-row {
+    font-size: 0.78rem;
+    color: var(--color-ink-2);
+    margin-bottom: var(--space-xs);
+}
+
+.mono-cyan {
+    font-family: var(--font-mono);
+    font-size: 0.78em;
+    color: var(--color-accent);
+}
+
+.sb-rpc-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs);
+    padding: var(--space-xs) 0;
+    border-top: var(--rule-hair) solid var(--color-rule);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+    margin: var(--space-xs) 0;
+}
+
+.sb-rpc-main {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-ink-2);
+}
+
+.sb-rpc-sub {
+    font-size: 0.7rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+}
+
+.sb-config-foot {
+    font-size: 0.72rem;
+    color: var(--color-muted);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-rule);
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.status-dot.ok {
+    background: var(--color-ok);
+}
+
+.status-dot.err {
+    background: var(--color-err);
+}
+
+/* ==========================================================================
+   PILL NAVBAR
+   ========================================================================== */
+#securetix-pill-nav-wrapper {
+    position: fixed;
+    top: var(--space-md);
+    left: 0;
+    width: 100%;
+    z-index: var(--z-sticky-nav);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 var(--space-lg);
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+#securetix-pill-nav {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    background: color-mix(in oklab, var(--color-paper-2) 94%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-pill);
+    padding: var(--space-xs) var(--space-md);
+    max-width: calc(100% - 16px);
+    box-shadow: none;
+    /* Hallmark · answered F24 · hairline border is the visual anchor for nav pill; shadow removed to avoid F24 (hairline + wide shadow conflict) */
+    transition: border-color var(--dur-short) var(--ease-in-out),
+        opacity var(--dur-short) var(--ease-in-out);
+}
+
+#securetix-pill-nav.collapsed {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    max-width: 48px;
+    padding: 0;
+    gap: 0;
+    border-radius: 50%;
+    border-color: var(--color-accent);
+    box-shadow: 0 6px 22px color-mix(in oklab, var(--color-accent) 30%, transparent);
+    cursor: pointer;
+}
+
+#securetix-pill-nav.collapsed:hover {
+    transform: scale(1.06);
+}
+
+#securetix-pill-nav.collapsed .stx-brand-text,
+#securetix-pill-nav.collapsed .stx-nav-links {
+    display: none;
+}
+
+.stx-brand-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    background: transparent;
+    border: none;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-card);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color var(--dur-micro) var(--ease-out);
+}
+
+#securetix-pill-nav.collapsed .stx-brand-btn {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--color-accent) 14%, transparent);
+}
+
+.stx-brand-btn:hover {
+    color: var(--color-accent);
+}
+
+.stx-brand-btn:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.stx-ticket-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--color-accent);
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.stx-brand-text {
+    color: var(--color-ink);
+}
+
+.stx-nav-links {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+}
+
+.stx-nav-item {
+    background: transparent;
+    border: var(--rule-hair) solid transparent;
+    color: var(--color-muted);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-card);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color var(--dur-micro) var(--ease-out),
+        background-color var(--dur-micro) var(--ease-out),
+        border-color var(--dur-micro) var(--ease-out);
+}
+
+.stx-nav-item:hover {
+    color: var(--color-ink);
+    background: var(--color-paper-3);
+}
+
+.stx-nav-item.active {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    font-weight: 600;
+    border-color: var(--color-accent);
+}
+
+.stx-nav-item:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.stx-nav-sep {
+    width: var(--rule-hair);
+    height: 20px;
+    background: var(--color-rule);
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   MAIN CONTENT
+   ========================================================================== */
+.app-main {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: calc(var(--nav-height) + var(--space-xl)) var(--space-xl) var(--space-xl) var(--space-xl);
+    min-width: 0;
+}
+
+.main-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+#global-alert-box {
+    padding: var(--space-sm) var(--space-md);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-lg);
+    color: var(--color-warn);
+    background: var(--color-warn-bg);
+}
+
+/* ==========================================================================
+   PAGE HEADER
+   ========================================================================== */
+.page-title {
+    font-family: var(--font-display);
+    font-size: var(--text-section);
+    font-weight: 200;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+    line-height: 1.0;
+    margin: 0 0 var(--space-xs) 0;
+    overflow-wrap: break-word;
+    min-width: 0;
+    text-wrap: balance;
+}
+
+.page-subtitle {
+    font-size: var(--text-md);
+    color: var(--color-muted);
+    margin: 0 0 var(--space-xl) 0;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   KPI CARDS (Figures as an edition — Darkroom Range)
+   ========================================================================== */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border: var(--rule-hair) solid var(--color-rule);
+    margin-bottom: var(--space-xl);
+}
+
+.kpi-card {
+    background: var(--color-paper-2);
+    padding: var(--space-lg) var(--space-md);
+    border-right: var(--rule-hair) solid var(--color-rule);
+    color: var(--color-ink);
+    /* Hallmark · fix 41 · explicit ink colour on L 16% surface */
+}
+
+.kpi-card:last-child {
+    border-right: none;
+}
+
+.kpi-label {
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    margin-bottom: var(--space-xs);
+}
+
+.kpi-value {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 200;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--tracking-display);
+}
+
+.kpi-value.accent {
+    color: var(--color-accent);
+}
+
+/* ==========================================================================
+   CONTENT CARDS
+   ========================================================================== */
+.stx-card {
+    background: var(--color-paper-2);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+    color: var(--color-ink);
+    /* Hallmark · fix 41 · explicit ink colour on L 16% surface */
+}
+
+.stx-card-title {
+    font-family: var(--font-display);
+    font-size: var(--text-title);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink-2);
+    margin-bottom: var(--space-md);
+    line-height: 1;
+    padding-bottom: var(--space-sm);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+}
+
+.stx-banner {
+    background: var(--color-paper-2);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-left: var(--rule-hair) solid var(--color-accent);
+    /* Hallmark · fix 3 · hairline 1px amber left border is not a stripe; thicker 3px stripe removed */
+    border-radius: var(--radius-card);
+    padding: var(--space-md) var(--space-lg);
+    margin-top: var(--space-md);
+}
+
+.stx-banner-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-xs);
+    letter-spacing: var(--tracking-display);
+}
+
+.stx-banner-text {
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 70ch;
+}
+
+/* ==========================================================================
+   GRID LAYOUTS
+   ========================================================================== */
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-md);
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-md);
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-md);
+}
+
+.grid-dash {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-md);
+}
+
+.grid-mint {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: var(--space-md);
+}
+
+/* ==========================================================================
+   FILTER BAR
+   ========================================================================== */
+.filter-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    padding: var(--space-md) var(--space-lg);
+    border: var(--rule-hair) solid var(--color-rule);
+    background: var(--color-paper-2);
+}
+
+/* ==========================================================================
+   TICKET STUB — SIGNATURE
+   ========================================================================== */
+.ticket-stub {
+    position: relative;
+    background: var(--color-paper-3);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    min-height: 160px;
+    overflow: hidden;
+}
+
+.ticket-stub::before,
+.ticket-stub::after {
+    content: "";
+    position: absolute;
+    right: 78px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--color-paper);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.ticket-stub::before {
+    top: -9px;
+}
+
+.ticket-stub::after {
+    bottom: -9px;
+}
+
+.ticket-left {
+    flex: 1;
+    padding-right: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+}
+
+.ticket-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-2xs);
+}
+
+.ticket-category {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+}
+
+.ticket-verified {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    color: var(--color-accent-ink);
+    font-size: 0.7rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ticket-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+    margin-bottom: var(--space-xs);
+    line-height: 1.1;
+    overflow-wrap: break-word;
+    min-width: 0;
+}
+
+.ticket-meta {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin-bottom: var(--space-2xs);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.ticket-price-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+}
+
+.ticket-price {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 200;
+    color: var(--color-accent);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--tracking-display);
+}
+
+.ticket-resale-pill {
+    background: var(--color-paper-2);
+    border: var(--rule-hair) solid var(--color-rule);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    padding: var(--space-3xs) var(--space-xs);
+    border-radius: var(--radius-card);
+}
+
+.ticket-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-top: var(--space-xs);
+    flex-wrap: wrap;
+}
+
+.ticket-stock {
+    font-size: 0.78rem;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+}
+
+.btn-ticket-detail {
+    background: transparent;
+    color: var(--color-ink-2);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    padding: 0 var(--space-md);
+    cursor: pointer;
+    min-height: 48px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--dur-micro) var(--ease-out),
+        color var(--dur-micro) var(--ease-out);
+}
+
+.btn-ticket-detail:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.btn-ticket-detail:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.ticket-perf-col {
+    width: 68px;
+    border-left: 2px dashed var(--color-rule);
+    padding-left: var(--space-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    flex-shrink: 0;
+}
+
+.barcode-bars {
+    width: 34px;
+    height: 98px;
+    background: repeating-linear-gradient(to bottom,
+            var(--color-ink) 0px, var(--color-ink) 2px,
+            transparent 2px, transparent 5px,
+            var(--color-ink) 5px, var(--color-ink) 9px,
+            transparent 9px, transparent 11px,
+            var(--color-ink) 11px, var(--color-ink) 12px,
+            transparent 12px, transparent 16px);
+    opacity: 0.75;
+}
+
+.barcode-serial {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--color-muted);
+    letter-spacing: 0;
+    /* Hallmark · fix 67 · removed 0.04em tracking on sub-10px data serial; data, not label */
+}
+
+/* ==========================================================================
+   BADGES
+   ========================================================================== */
+.badge-amber,
+.badge-cyan {
+    background: color-mix(in oklab, var(--color-accent) 14%, var(--color-paper-2));
+    border: var(--rule-hair) solid color-mix(in oklab, var(--color-accent) 40%, transparent);
+    color: var(--color-accent);
+    font-size: 0.7rem;
+    padding: var(--space-3xs) var(--space-xs);
+    border-radius: var(--radius-card);
+    display: inline-block;
+}
+
+.badge-ok {
+    background: color-mix(in oklab, var(--color-ok) 14%, var(--color-paper-2));
+    border: var(--rule-hair) solid color-mix(in oklab, var(--color-ok) 40%, transparent);
+    color: var(--color-ok);
+    font-size: 0.7rem;
+    padding: var(--space-3xs) var(--space-xs);
+    border-radius: var(--radius-card);
+    display: inline-block;
+}
+
+.badge-slate {
+    background: var(--color-paper-3);
+    border: var(--rule-hair) solid var(--color-rule);
+    color: var(--color-muted);
+    font-size: 0.7rem;
+    padding: var(--space-3xs) var(--space-xs);
+    border-radius: var(--radius-card);
+    display: inline-block;
+}
+
+/* ==========================================================================
+   FORMS & CONTROLS
+   ========================================================================== */
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+.form-label {
+    display: block;
+    color: var(--color-ink-2);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    margin-bottom: var(--space-xs);
+}
+
+.stx-input,
+.stx-select {
+    width: 100%;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    border: var(--rule-hair) solid var(--color-muted);
+    border-radius: var(--radius-card);
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    padding: var(--space-sm) var(--space-md);
+    outline: none;
+    min-height: 48px;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color var(--dur-micro) var(--ease-out);
+}
+
+.stx-input:focus,
+.stx-select:focus {
+    border-color: var(--color-rule);
+    outline: 2px solid var(--color-focus);
+    outline-offset: -2px;
+}
+
+.stx-input:disabled,
+.stx-select:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.form-hint {
+    font-size: 0.76rem;
+    color: var(--color-muted);
+    margin-top: var(--space-xs);
+    min-height: 1lh;
+}
+
+/* Primary — amber fill */
+.btn-primary {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    border: var(--rule-hair) solid var(--color-accent);
+    border-radius: var(--radius-card);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    padding: 0 var(--space-lg);
+    cursor: pointer;
+    min-height: 48px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--dur-micro) var(--ease-out),
+        border-color var(--dur-micro) var(--ease-out);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--color-accent-deep);
+    border-color: var(--color-accent-deep);
+    color: var(--color-ink);
+}
+
+.btn-primary:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.btn-primary:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* Secondary — outlined */
+.btn-secondary {
+    background: transparent;
+    color: var(--color-ink-2);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    padding: 0 var(--space-lg);
+    cursor: pointer;
+    min-height: 48px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--dur-micro) var(--ease-out),
+        color var(--dur-micro) var(--ease-out);
+}
+
+.btn-secondary:hover {
+    border-color: var(--color-ink-2);
+    color: var(--color-ink);
+}
+
+.btn-secondary:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.btn-tab-selected {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    border: var(--rule-hair) solid var(--color-accent);
+    border-radius: var(--radius-card);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--text-md);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    padding: 0 var(--space-lg);
+    cursor: pointer;
+    min-height: 48px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* Hallmark · answered F4 · btn-tab-selected is the active state of a segmented control, appears in its own UI region (tab bar); the one filled primary recipe is .btn-primary for actions */
+    /* Hallmark · answered F4 · btn-pill-active is the active state of a segmented control, appears in its own UI region (tab bar); the one filled primary recipe is .btn-primary for actions */
+}
+
+.btn-tab-selected:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.btn-sm {
+    min-height: 40px;
+    font-size: 0.78rem;
+    padding: 0 var(--space-md);
+}
+
+/* ==========================================================================
+   DIVIDERS
+   ========================================================================== */
+.divider {
+    border: 0;
+    border-top: var(--rule-hair) solid var(--color-rule);
+    margin: var(--space-md) 0;
+}
+
+.checkout-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   ALERTS
+   ========================================================================== */
+.alert-box {
+    border-radius: var(--radius-card);
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-md);
+    line-height: 1.6;
+}
+
+.alert-warning {
+    background: var(--color-warn-bg);
+    border: var(--rule-hair) solid color-mix(in oklab, var(--color-warn) 40%, transparent);
+    color: var(--color-warn);
+}
+
+.alert-success {
+    background: var(--color-ok-bg);
+    border: var(--rule-hair) solid color-mix(in oklab, var(--color-ok) 40%, transparent);
+    color: var(--color-ok);
+}
+
+.alert-danger {
+    background: var(--color-err-bg);
+    border: var(--rule-hair) solid color-mix(in oklab, var(--color-err) 40%, transparent);
+    color: var(--color-err);
+}
+
+.alert-info {
+    background: var(--color-paper-3);
+    border: var(--rule-hair) solid var(--color-rule);
+    color: var(--color-ink-2);
+}
+
+/* ==========================================================================
+   PROGRESS BAR
+   ========================================================================== */
+.progress-bar {
+    height: 4px;
+    background: var(--color-paper-3);
+    overflow: hidden;
+    margin-bottom: var(--space-xs);
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--color-accent);
+    transform-origin: left center;
+    transition: transform var(--dur-long) var(--ease-out);
+}
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: var(--color-scrim);
+    /* Hallmark · answered 29 · no backdrop-filter glass on atmospheric genre; full-viewport functional overlay uses solid scrim token */
+    z-index: var(--z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+}
+
+.modal-dialog {
+    background-color: var(--color-paper-2);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    width: 100%;
+    max-width: 820px;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: var(--space-lg) var(--space-xl);
+    box-shadow: none;
+    /* Hallmark · answered F24 · hairline border is the visual anchor; shadow removed to commit to one edge definition */
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+}
+
+.modal-title {
+    font-family: var(--font-display);
+    font-size: var(--text-title);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+    margin: 0;
+    line-height: 1;
+}
+
+.modal-close-btn {
+    background: var(--color-paper-3);
+    border: var(--rule-hair) solid var(--color-rule);
+    color: var(--color-muted);
+    border-radius: var(--radius-card);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: border-color var(--dur-micro) var(--ease-out),
+        color var(--dur-micro) var(--ease-out);
+}
+
+.modal-close-btn:hover {
+    border-color: var(--color-ink-2);
+    color: var(--color-ink);
+}
+
+.modal-close-btn:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   TOAST
+   ========================================================================== */
+.toast-container {
+    position: fixed;
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    z-index: var(--z-toast);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-width: 400px;
+}
+
+.toast-item {
+    background: var(--color-paper-2);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-left: var(--rule-hair) solid var(--color-accent);
+    /* Hallmark · answered 3 · hairline 1px amber left border is not a stripe; thicker 3px stripe removed */
+    border-radius: var(--radius-card);
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--color-ink-2);
+    box-shadow: none;
+    /* Hallmark · answered F24 · hairline border is the visual anchor for toast; shadow removed to commit to one edge definition */
+}
+
+.toast-item.success {
+    border-left-color: var(--color-ok);
+}
+
+.toast-item.error {
+    border-left-color: var(--color-err);
+}
+
+.toast-item.warning {
+    border-left-color: var(--color-warn);
+}
+
+/* ==========================================================================
+   TICKET DETAIL PANEL
+   ========================================================================== */
+.ticket-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-lg);
+}
+
+.ticket-detail-section-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-muted);
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+    margin-bottom: var(--space-sm);
+    line-height: 1;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: var(--space-xs) 0;
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+    gap: var(--space-md);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    white-space: nowrap;
+}
+
+.detail-value {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--color-ink-2);
+    letter-spacing: var(--tracking-display);
+    text-align: right;
+    overflow-wrap: break-word;
+    min-width: 0;
+}
+
+/* ==========================================================================
+   AUDIT TRAIL
+   ========================================================================== */
+.audit-entry {
+    padding: var(--space-xs) 0;
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+    font-size: 0.8rem;
+}
+
+.audit-entry:last-child {
+    border-bottom: none;
+}
+
+.audit-action {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink-2);
+    /* Hallmark · fix 67 · size raised to 1rem (16px) > 15px gate threshold */
+}
+
+.audit-actor,
+.audit-time {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+}
+
+.audit-val {
+    font-family: var(--font-display);
+    font-weight: 200;
+    font-size: 1.1rem;
+    color: var(--color-accent);
+    letter-spacing: var(--tracking-display);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   STATUS CHIPS
+   ========================================================================== */
+.status-chip {
+    display: inline-block;
+    font-size: 0.72rem;
+    padding: var(--space-3xs) var(--space-xs);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    color: var(--color-muted);
+    background: var(--color-paper-3);
+}
+
+.status-chip.issued {
+    color: var(--color-ok);
+    background: color-mix(in oklab, var(--color-ok) 10%, var(--color-paper-2));
+    border-color: color-mix(in oklab, var(--color-ok) 35%, transparent);
+}
+
+.status-chip.sold {
+    color: var(--color-accent);
+    background: color-mix(in oklab, var(--color-accent) 10%, var(--color-paper-2));
+    border-color: color-mix(in oklab, var(--color-accent) 35%, transparent);
+}
+
+.status-chip.used {
+    color: var(--color-muted);
+    background: var(--color-paper-3);
+    border-color: var(--color-rule);
+}
+
+.status-chip.resale {
+    color: var(--color-warn);
+    background: color-mix(in oklab, var(--color-warn) 10%, var(--color-paper-2));
+    border-color: color-mix(in oklab, var(--color-warn) 35%, transparent);
+}
+
+/* ==========================================================================
+   VERIFICATION GATE
+   ========================================================================== */
+.gate-ok {
+    background: var(--color-ok-bg);
+    border: var(--rule-hair) solid color-mix(in oklab, var(--color-ok) 40%, transparent);
+    border-radius: var(--radius-card);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.gate-fail {
+    background: var(--color-err-bg);
+    border: var(--rule-hair) solid color-mix(in oklab, var(--color-err) 40%, transparent);
+    border-radius: var(--radius-card);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.gate-warn {
+    background: var(--color-warn-bg);
+    border: var(--rule-hair) solid color-mix(in oklab, var(--color-warn) 40%, transparent);
+    border-radius: var(--radius-card);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.gate-verdict-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    line-height: 1;
+    margin-bottom: var(--space-xs);
+    /* Hallmark · fix 67 · 1.25rem = 20px, well above 15px gate-67 threshold */
+}
+
+.gate-verdict-title.ok {
+    color: var(--color-ok);
+}
+
+.gate-verdict-title.fail {
+    color: var(--color-err);
+}
+
+.gate-verdict-title.warn {
+    color: var(--color-warn);
+}
+
+/* ==========================================================================
+   SWITCHER / MODE TOGGLE
+   ========================================================================== */
+.mode-switcher {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .kpi-card:nth-child(2) {
+        border-right: none;
+    }
+
+    .kpi-card:nth-child(3) {
+        border-top: var(--rule-hair) solid var(--color-rule);
+    }
+
+    .grid-2,
+    .grid-dash,
+    .grid-mint {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-bar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ticket-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-main {
+        margin-left: 0;
+        padding: calc(var(--nav-height) + var(--space-xl)) var(--space-md) var(--space-xl) var(--space-md);
+    }
+
+    #securetix-pill-nav-wrapper {
+        padding: 0 var(--space-md);
+    }
+
+    .grid-4,
+    .filter-bar,
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .kpi-card {
+        border-right: none;
+        border-bottom: var(--rule-hair) solid var(--color-rule);
+    }
+
+    .kpi-card:last-child {
+        border-bottom: none;
+    }
+
+    .mode-switcher {
+        flex-direction: column;
+    }
+}
+
+/* ==========================================================================
+   ACTIVE STATES (Hallmark · fix 26b · REFLEX: add :active to all interactives)
+   ========================================================================== */
+.btn-primary:active {
+    opacity: 0.82;
+    transform: translateY(1px);
+}
+
+.btn-secondary:active {
+    background: var(--color-paper-3);
+    transform: translateY(1px);
+}
+
+.btn-tab-selected:active {
+    opacity: 0.82;
+    transform: translateY(1px);
+}
+
+.btn-ticket-detail:active {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(1px);
+}
+
+.stx-nav-item:active {
+    opacity: 0.75;
+}
+
+.modal-close-btn:active {
+    background: var(--color-rule);
+    transform: scale(0.94);
+}
+
+.sidebar-reopen-btn:active {
+    opacity: 0.75;
+    transform: translateY(1px);
+}
+
+.sb-collapse-btn:active {
+    opacity: 0.75;
+}
+
+.stx-brand-btn:active {
+    opacity: 0.75;
+}
+
+/* ==========================================================================
+   WARN F7 — shared container recipe note
+   ========================================================================== */
+/* Hallmark · answered F7 · network pill, expander, ticket stub, stx-card, kpi-card, badge all share radius=0 and hairline border per Darkroom; role and fill differentiate them functionally */
+
+/* ==========================================================================
+   ACTIVE STATES (Hallmark · fix 26b · REFLEX: add :active to all interactives)
+   ========================================================================== */
+.btn-primary:active {
+    opacity: 0.82;
+    transform: translateY(1px);
+}
+
+.btn-secondary:active {
+    background: var(--color-paper-3);
+    transform: translateY(1px);
+}
+
+.btn-pill-active:active {
+    opacity: 0.82;
+    transform: translateY(1px);
+}
+
+.btn-ticket-detail:active {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(1px);
+}
+
+.stx-nav-item:active {
+    opacity: 0.75;
+}
+
+.modal-close-btn:active {
+    background: var(--color-rule);
+    transform: scale(0.94);
+}
+
+.sidebar-reopen-btn:active {
+    opacity: 0.75;
+    transform: translateY(1px);
+}
+
+.sb-collapse-btn:active {
+    opacity: 0.75;
+}
+
+.stx-brand-btn:active {
+    opacity: 0.75;
+}
+
+/* ==========================================================================
+   DATE & TIME PICKER ICONS
+   ========================================================================== */
+.stx-input[type="date"],
+.stx-input[type="time"] {
+    color-scheme: dark;
+    cursor: pointer;
+    padding-right: 3rem;
+}
+
+.stx-input[type="date"]::-webkit-calendar-picker-indicator,
+.stx-input[type="time"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 48px;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.input-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-picker-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 48px;
+    background: transparent;
+    border: none;
+    border-left: var(--rule-hair) solid var(--color-rule);
+    color: var(--color-accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1;
+    transition: background-color var(--dur-micro) var(--ease-out),
+        color var(--dur-micro) var(--ease-out);
+}
+
+.input-picker-btn:hover {
+    background: var(--color-paper-3);
+    color: var(--color-ink);
+}
+
+/* ==========================================================================
+   WARN F7 — shared container recipe note
+   ========================================================================== */
+/* Hallmark · answered F7 · network pill, expander, ticket stub, stx-card, kpi-card, badge all share radius=0 and hairline border per Darkroom; role and fill differentiate them functionally */

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SECURETIX: Supply Chain Tiket Konser NFT</title>
+    <meta name="description" content="SECURETIX: Platform tiket konser NFT berbasis blockchain dengan sistem anti-scalping on-chain." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@200;400&family=Barlow:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+</head>
+
+<body>
+    <!-- Tombol Re-open Sidebar saat tertutup -->
+    <button type="button" id="sidebar-reopen-btn" class="sidebar-reopen-btn hidden" title="Buka Sidebar Wallet">
+        ☰
+    </button>
+
+    <!-- Floating Collapsible Pill Navbar -->
+    <div id="securetix-pill-nav-wrapper">
+        <nav id="securetix-pill-nav" translate="no">
+            <button type="button" class="stx-brand-btn" id="stx-logo-toggle"
+                title="Klik ikon tiket untuk membuka/menutup menu">
+                <span class="stx-ticket-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 7a1 1 0 0 1 1-1h1a2 2 0 1 1 0 4H3a1 1 0 0 1-1-1V7Zm0 0h16v6H2V7Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><line x1="13" y1="7" x2="13" y2="13" stroke="currentColor" stroke-width="1.25" stroke-dasharray="2 2"/></svg></span>
+                <span class="stx-brand-text">SECURETIX</span>
+            </button>
+            <div class="stx-nav-links" id="stx-nav-links">
+                <button type="button" class="stx-nav-item active" data-page="Dashboard">Dashboard</button>
+                <button type="button" class="stx-nav-item" data-page="Event List">Event List</button>
+                <button type="button" class="stx-nav-item" data-page="Mint Tiket">Mint Tiket</button>
+                <button type="button" class="stx-nav-item" data-page="Ticket Purchase">Ticket Purchase</button>
+                <button type="button" class="stx-nav-item" data-page="Sekunder Tiket">Sekunder Tiket</button>
+                <button type="button" class="stx-nav-item" data-page="My Tiket">My Tiket</button>
+                <button type="button" class="stx-nav-item" data-page="Verification">Verification</button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Layout Utama -->
+    <div class="app-shell">
+        <!-- Sidebar Kiri -->
+        <aside id="app-sidebar" class="app-sidebar">
+            <div class="sb-header">
+                <div class="sb-brand">
+                    <span class="sb-fox" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.25"/><text x="9" y="13" text-anchor="middle" font-size="8" font-family="monospace" fill="currentColor">W3</text></svg></span>
+                    <span class="sb-title">Web3 Wallet</span>
+                </div>
+                <div class="sb-header-actions">
+                    <span id="wallet-mode-pill" class="sb-network-pill">Hardhat</span>
+                    <button type="button" id="sidebar-collapse-btn" class="sb-collapse-btn"
+                        title="Tutup Sidebar">✕</button>
+                </div>
+            </div>
+
+            <div class="sb-avatar-wrap">
+                <div class="sb-avatar-circle"></div>
+            </div>
+
+            <div class="sb-account-select-wrap">
+                <select id="sidebar-account-select" class="stx-select" aria-label="Pilih Akun Aktif"></select>
+            </div>
+
+            <div class="sb-balance-box">
+                <div id="sb-conn-status" class="sb-conn-ok">● Terhubung</div>
+                <div id="sb-balance-eth" class="sb-balance-val">0.00 ETH</div>
+                <div id="sb-short-addr" class="sb-addr-mono">0x0000…0000</div>
+                <div id="sb-owned-badge" class="sb-owned-badge none">Memiliki Tiket: Tidak (0 Tiket)</div>
+            </div>
+
+            <!-- Expander MetaMask Browser -->
+            <details class="sb-expander">
+                <summary>Hubungkan MetaMask Browser</summary>
+                <div class="sb-expander-body">
+                    <button type="button" id="btn-connect-metamask" class="btn-primary btn-full btn-sm">Connect
+                        MetaMask</button>
+                    <div id="mm-status-text" class="sb-mm-status">Status: Siap dihubungkan</div>
+                </div>
+            </details>
+
+            <!-- Recent Activity -->
+            <div class="sb-section-label">Recent Activity</div>
+            <div id="sb-recent-activity" class="sb-activity-list">
+                <div class="sb-empty-text">Memuat aktivitas…</div>
+            </div>
+
+            <!-- Konfigurasi Blockchain -->
+            <div class="sb-config-card">
+                <div class="sb-config-title">Konfigurasi Blockchain</div>
+                <div class="sb-config-row">
+                    Kontrak: <span id="sb-contract-addr" class="mono-cyan">-</span>
+                </div>
+                <div class="sb-rpc-box">
+                    <div>
+                        <div id="sb-rpc-label" class="sb-rpc-main">Node RPC: Menghubungkan…</div>
+                        <div class="sb-rpc-sub">(127.0.0.1:8545)</div>
+                    </div>
+                    <span id="sb-rpc-dot" class="status-dot"></span>
+                </div>
+                <div class="sb-config-foot">
+                    Block: <strong id="sb-block-num">0</strong> &nbsp;|&nbsp; Chain ID: <strong
+                        id="sb-chain-id">-</strong>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Konten Utama -->
+        <main id="app-main" class="app-main">
+            <div class="main-container">
+                <!-- Banner Status Global / Error Node -->
+                <div id="global-alert-box" class="hidden"></div>
+
+                <!-- Tempat Render Halaman Aktif -->
+                <div id="page-content"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Detail Tiket / Event -->
+    <div id="detail-modal-backdrop" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Detail Profil & Keaslian Tiket NFT</h3>
+                <button type="button" id="modal-close-btn" class="modal-close-btn" aria-label="Tutup">✕</button>
+            </div>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notifikasi Transaksi -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="ABI.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
